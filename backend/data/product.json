@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Soularized",
+    "image": "/uploads/sport-shirt1.jpg",
+    "description":
+      "A subtle grid camo print pops in neon colors across this long sleeve cotton sport shirt with the perfect amount of modern stretch.",
+    "brand": "Classic Fit",
+    "category": "men",
+    "price": 89.99,
+    "rating": 4.5,
+    "numReviews": 5,
+    "collectionsData": "Sport Shirt",
+    "size": ["M", "L", "S"]
+  },
+  {
+    "name": "NewSted Sport Shirt",
+    "image": "/uploads/sport-shirt2.jpg",
+    "description":
+      "An allover botanical block print creates a piece of #WearableArt across this breezy linen blend long sleeve sport shirt. Contrast trim at the inner placket makes for a surprise and delight every time.",
+    "brand": "Tailored Fit",
+    "category": "men",
+    "price": 49.99,
+    "rating": 4.0,
+    "numReviews": 8,
+    "collectionsData": "Sport Shirt",
+    "size": ["M", "L", "S"]
+  },
+  {
+    "name": "NewSted Sport Shirt",
+    "image": "/uploads/sport-shirts.jpg",
+    "description":
+      "An allover botanical block print creates a piece of #WearableArt across this breezy linen blend long sleeve sport shirt. Contrast trim at the inner placket makes for a surprise and delight every time.",
+    "brand": "Tailored Fit",
+    "category": "men",
+    "price": 49.99,
+    "rating": 4.0,
+    "numReviews": 8,
+    "collectionsData": "Sport Shirt",
+    "size": ["M", "L", "S"]
+  },
+  {
+    "name": "Andretti Short Sleeve",
+    "image": "/uploads/short-sleve.jpg",
+    "description":   "A subtle grid camo print pops in neon colors across this long sleeve cotton sport shirt with the perfect amount of modern stretch.",
+    "brand": "Classic Fit",
+    "category": "men",
+    "price": 49.99,
+    "rating": 4.0,
+    "numReviews": 8,
+    "collectionsData": "Short Sleeve",
+    "size": ["L", "S", "XL"]
+  },
+  {
+    "name": "INN JET Short Sleeve Knit",
+    "image": "/uploads/short-sleve2.jpg",
+    "description": "A subtle grid camo print pops in neon colors across this long sleeve cotton sport shirt with the perfect amount of modern stretch.",
+    "brand": "Classic Fit",
+    "category": "men",
+    "price": 49.99,
+    "rating": 4.0,
+    "numReviews": 1,
+    "collectionsData": "Short Sleeve",
+    "size": ["L", "S", "XL"]
+  },
+  {
+    "name": "Rock Funk Soul Short Sleeve",
+    "image": "/uploads/short-sleve3.jpg",
+    "description": "A subtle grid camo print pops in neon colors across this long sleeve cotton sport shirt with the perfect amount of modern stretch.",
+    "brand": "Tailored Fit",
+    "category": "men",
+    "price": 49.99,
+    "rating": 4.0,
+    "numReviews": 2,
+    "collectionsData": "Short Sleeve",
+    "size": ["L", "S", "XL"]
+  }
+  
+]
