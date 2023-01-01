@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema(
+  {
     id: {
       type: String
     },
@@ -70,7 +71,29 @@ const productSchema = new mongoose.Schema({
       default: Date.now(),
       select: false
     }
-});
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: {virtuals: true}
+  }
+);
+
+
+
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id'
+})
+
+// productSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'reviews',
+//     select: '-__v -product'
+//   });
+
+//   next();
+// })
 
 const Product = mongoose.model('Product', productSchema);
 

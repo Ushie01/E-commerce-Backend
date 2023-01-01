@@ -45,9 +45,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   console.log(user);
 
-  const resetOtp = user.createPasswordConfirmOtp();
+  // const resetOtp = user.createPasswordConfirmOtp();
   // await user.save({ validateBeforeSave: false });
-  console.log(resetOtp);
+  // console.log(resetOtp);
 
   // const message = `Thank you for signing up with the Juliana's brand we are so proud to have you on board with us
   // Kindly respond with the OTP provided below
@@ -68,7 +68,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
       confirmPassword: req.body.confirmPassword,
-      otp: results
+      // otp: results
   });
   newUser.active = undefined;
   newUser.emailConfirmed = undefined;
@@ -145,7 +145,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 
 exports.restrictTo = (...roles) => {
-    return (req, res, next) => {
+  return (req, res, next) => {
+         console.log(req.user)
         if (!roles.includes(req.user.role)) {
             return next(
                 new AppError('You do not have permission to perform this action', 403)
@@ -157,19 +158,18 @@ exports.restrictTo = (...roles) => {
 
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-    // 1) Get user based on posted email
-    const user = await User.findOne({ email: req.body.email });
-    console.log(user)
-    if (!user) {
-        return next(new AppError('There is no user with this email address', 404));
-    }
-    // 2) Generate the random reset
-    const resetToken = user.createPasswordResetToken();
-    await user.save({ validateBeforeSave: false });
-    // 3) Send it to user's email
-    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-    const message = `Forgot your password? Click on the link below to create new password:
-    ${resetURL}.\nIf you didn't forget your password please ignore this email!`;
+  // 1) Get user based on posted email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+      return next(new AppError('There is no user with this email address', 404));
+  }
+  // 2) Generate the random reset
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+  // 3) Send it to user's email
+  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+  const message = `Forgot your password? Click on the link below to create new password:
+  ${resetURL}.\nIf you didn't forget your password please ignore this email!`;
 
   try {
     Email(req.body.email, message);
