@@ -18,7 +18,8 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-    const product = await Product.findById(req.params.id).populate('reviews');
+    const product = await Product.findById(req.params.id)
+        .populate('reviews');
 
     if (!product) {
         return next(new AppError('No product found with that ID', 404));
@@ -30,7 +31,6 @@ exports.getProduct = catchAsync(async (req, res, next) => {
             product
         }
     });
-
 });
 
 exports.getAllProduct = catchAsync(async (req, res, next) => {

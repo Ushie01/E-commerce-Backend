@@ -4,56 +4,75 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        require: [true, 'Please tell us your name']
-    },
-    email: {
-        type: String,
-        required: [true, 'Please provide your email'],
-        unique: true,
-        lower: true,
-        validator: [validator.isEmail, 'Please provide a valid email']
-    },
-    photo: String,
-    role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-    },
-    password: {
-        type: String,
-        required: [true, 'Please provide a password'],
-        minlength: 8,
-        select: false
-    },
-    confirmPassword: {
-        type: String,
-        required: [true, 'Please confirm your password'],
-        validate: {
-            validator: function (el) {
-                return el === this.password;
-            }
+const userSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            require: [true, 'Please tell us your name']
         },
-        message: "Password are not the same."
+        email: {
+            type: String,
+            required: [true, 'Please provide your email'],
+            unique: true,
+            lower: true,
+            validator: [validator.isEmail, 'Please provide a valid email']
+        },
+        photo: String,
+        role: {
+            type: String,
+            enum: ['user', 'admin'],
+            default: 'user'
+        },
+        password: {
+            type: String,
+            required: [true, 'Please provide a password'],
+            minlength: 8,
+            select: false
+        },
+        confirmPassword: {
+            type: String,
+            required: [true, 'Please confirm your password'],
+            validate: {
+                validator: function (el) {
+                    return el === this.password;
+                }
+            },
+            message: "Password are not the same."
+        },
+        otp: String,
+        otpResetExpires: Date,
+        emailConfirmed: {
+            type: Boolean,
+            default: false,
+            select: true
+        },
+        passwordChangeAt: Date,
+        passwordResetToken: String,
+        passwordResetExpires: Date,
+        active: {
+            type: Boolean,
+            default: true,
+            select: false
+        }
     },
-    otp: String,
-    otpResetExpires: Date,
-    emailConfirmed: {
-        type: Boolean,
-        default: false,
-        select: true
-    },
-    passwordChangeAt: Date,
-    passwordResetToken: String,
-    passwordResetExpires: Date,
-    active: {
-        type: Boolean,
-        default: true,
-        select: false
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
     }
+);
+
+userSchema.virtual('orders', {
+  ref: 'Order',
+  foreignField: 'user',
+  localField: '_id'
 });
+
+// userSchema.virtual('products', {
+//     ref: 'Order',
+//     foreignField: 'product',
+//     localField: '_id'
+// })
+
 
 userSchema.pre('save', async function (next) {
     // Only run this function if password was actually modified
@@ -122,6 +141,8 @@ userSchema.methods.createPasswordResetToken = function () {
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
     return resetToken;
 }
+
+
 
 
 

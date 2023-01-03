@@ -11,7 +11,6 @@ exports.setProductUserIds = (req, res, next) => {
 
 exports.createReview = catchAsync(async (req, res, next) => {
     const review = await Review.create(req.body);
-    
     res.status(201).json({
         status: 'success',
         data: {
@@ -23,10 +22,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
     let filter = {};
+    console.log(req.params);
     if (req.params.productId) filter = { product: req.params.productId };
-    
     const review = await Review.find(filter);
-
     res.status(200).json({
         status: 'success',
         results: review.length,
@@ -35,24 +33,7 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
         }
 
     })
-
-
-})
-
-exports.getReview = catchAsync(async (req, res, next) => {
-    const review = await Review.findById(req.params.id);
-
-    if (!review) {
-        return next(new AppError('No document found with that id', 404))
-    }
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            data: review
-        }
-    })
-})
+});
 
 exports.deleteReview = catchAsync(async (req, res, next) => {
     const review = await Review.findByIdAndDelete(req.params.id);

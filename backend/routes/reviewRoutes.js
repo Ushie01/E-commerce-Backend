@@ -13,12 +13,12 @@ router
         reviewController.setProductUserIds,
         reviewController.createReview
     )
-    // .get(reviewController.getReview)
-    .get(reviewController.getAllReviews);
+    .get(
+        reviewController.getAllReviews
+    );
 
 router
     .route('/:id')
-    // .get(reviewController.getReview)
     .delete(
         authController.restrictTo('user'),
         reviewController.deleteReview

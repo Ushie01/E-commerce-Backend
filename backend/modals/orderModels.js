@@ -1,23 +1,17 @@
 const mongoose = require('mongoose');
 
-const orderSchema = mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
     },
     orderItems: [
       {
-        name: { type: String, required: true },
-        qty: { type: Number, required: true },
-        image: { type: String, required: true },
-        price: { type: Number, required: true },
-        product: {
-          type: mongoose.Schema.ObjectId,
-          required: true,
-          ref: 'Product',
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Product',
       },
     ],
     shippingAddress: {
@@ -28,7 +22,7 @@ const orderSchema = mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      required: true,
+      required: [true, 'A payment method is required']
     },
     paymentResult: {
       id: { type: String },
@@ -68,6 +62,16 @@ const orderSchema = mongoose.Schema(
   },
 )
 
-const Order = mongoose.model('Order', orderSchema)
 
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'orderItems',
+    select: '-ratingsAverage -ratingsQuantity -gallery -numReviews -rating -__v'
+  });
+
+  next();
+});
+
+
+const Order = mongoose.model('Order', orderSchema);
 module.exports = Order;

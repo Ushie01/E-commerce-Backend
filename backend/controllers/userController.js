@@ -50,6 +50,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
@@ -59,8 +60,11 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+
 exports.getUser = catchAsync(async (req, res, next) => {
-  let query = User.findById(req.params.id);
+  let query = User.findById(req.user._id)
+    .populate('orders')
+    .populate('products');
   const user = await query;
 
   if (!user) {
