@@ -41,44 +41,34 @@ const createSendToken = (user, statusCode, res) => {
 
 
 exports.signup = catchAsync(async (req, res, next) => {
-  //Get user based on posted email
-  const user = await User.findOne({ email: req.body.email });
-  console.log(user);
-
-  // const resetOtp = user.createPasswordConfirmOtp();
-  // await user.save({ validateBeforeSave: false });
-  // console.log(resetOtp);
-
-  // const message = `Thank you for signing up with the Juliana's brand we are so proud to have you on board with us
-  // Kindly respond with the OTP provided below
-  // ${resetOtp}
-  // `
-
-  // try {
-  //   Email(req.body.email, message)
-  // } catch (error) {
-  //   return next(
-  //       new AppError('There was an error sending the email. Try again later', 500)
-  //   )
-  // }
-
-  // await User.findByIdAndUpdate(req.user.id, {active: false});
   const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      confirmPassword: req.body.confirmPassword,
-      // otp: results
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword
   });
+
   newUser.active = undefined;
   newUser.emailConfirmed = undefined;
-  // newUser.otp = undefined;
+
+  const user = await User.findOne({ email: req.body.email });
+  const resetOtp = user.createPasswordConfirmOtp();
+  await user.save({ validateBeforeSave: false });
+
+  const message = `Thank you for signing up with the Juliana's brand we are so proud to have you on board with us
+    Kindly respond with the OTP provided below                                                          
+    ${resetOtp}
+  `
+
+  try {
+    Email(req.body.email, message)
+  } catch (error) {
+    return next(
+        new AppError('There was an error sending the email. Try again later', 500)
+    )
+  }
+
   createSendToken(newUser, 201, res);
-
-  // const getEmailVarification = user.emailVarificationToken();
-  // console.log(getEmailVarification);
-    // res.emailVarification = undefined;
-
 });
 
 
@@ -160,6 +150,7 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
+  console.log(user);
   if (!user) {
       return next(new AppError('There is no user with this email address', 404));
   }
@@ -185,6 +176,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
             new AppError('There was an error sending the email. Try again later', 500)
         )
     }
+
 });
 
 // exports.emailVerification = catchAsync(async (req, res, next) => {
@@ -205,6 +197,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(new AppError('Token is invalid or has expired', 400))
     }
+    
     user.password = req.body.password;
     user.confirmPassword = req.body.confirmPassword;
     user.passwordResetToken = undefined;
@@ -217,20 +210,30 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.emailVerification = catchAsync(async (req, res, next) => {
   // const otp = await User.updateOne({ emailVerification: req.body.emailVerification }, { active: true });
-  const otp = await User.findOne({ otp: req.body.otp });
-  console.log(otp);
-  if (!otp) {
-    return next(new AppError('Please provide a valid otp', 400))
+  const hashedOtp = crypto
+    .createHash('sha256')
+    .update((req.body.otp).toString())
+    .digest('hex');
+  const user = await User.findOne({
+    otp: hashedOtp,
+    otpResetExpires: { $gt: Date.now() }
+  });
+  
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400))
   } else {
-    await User.updateOne({ otp: req.body.otp }, { emailConfirmed: true });
-    await User.updateOne({ otp: req.body.otp}, {otp: " "});
+    await User.updateOne({ otp: hashedOtp }, { emailConfirmed: true });
   }
-  // await User.updateMany({ emailVerification: emailVerification }, { $unset: { emailVerification: " " } });
+
+  user.otp = undefined;
+  user.otpResetExpires = undefined;
+  await user.save({ validateBeforeSave: false });
+
   res.status(200).json({
     status: "success",
     message: 'Email successfully verified'
   });
-  // createSendToken(_, 200, res);
+  // createSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
