@@ -2,12 +2,14 @@ const Review = require('../modals/reviewModels');
 const AppError = require('../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 
+
 exports.setProductUserIds = (req, res, next) => {
     if (!req.body.product) req.body.product = req.params.productId;
     if (!req.body.user) req.body.user = req.user.id;
 
     next();
 }
+
 
 exports.createReview = catchAsync(async (req, res, next) => {
     const review = await Review.create(req.body);
@@ -19,6 +21,7 @@ exports.createReview = catchAsync(async (req, res, next) => {
     })
     // next();
 });
+
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
     let filter = {};
@@ -35,13 +38,12 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
     })
 });
 
+
 exports.deleteReview = catchAsync(async (req, res, next) => {
     const review = await Review.findByIdAndDelete(req.params.id);
-
     if (!review) {
         return next(new AppError('No document found with that id', 404))
     }
-
     res.status(200).json({
         status: 'success',
         data: {
@@ -51,16 +53,15 @@ exports.deleteReview = catchAsync(async (req, res, next) => {
 
 });
 
+
 exports.updateReview = catchAsync(async (req, res, next) => {
     const review = await Review.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
     });
-
     if (!review) {
         return next(new AppError('No document found with that id', 404))
     };
-
     res.status(200).json({
         status: 'success',
         data: {

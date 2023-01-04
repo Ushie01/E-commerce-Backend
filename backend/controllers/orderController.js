@@ -21,9 +21,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
 exports.getAllOrders = catchAsync(async (req, res, next) => {
     let filter = {};
-    console.log(req.params)
-    if (req.params.userId) filter = { order: req.params.userId };
-    // console.log(req.params);
+    if (req.params.userId) filter = { user: req.params.userId };
     const order = await Order.find(filter);
     console.log(order);
     res.status(200).json({

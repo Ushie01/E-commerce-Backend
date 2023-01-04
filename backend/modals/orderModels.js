@@ -9,9 +9,13 @@ const orderSchema = new mongoose.Schema(
     },
     orderItems: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Product',
+        qty: { type: String, required: true },
+        price: { type: String, required: true },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
+        },
       },
     ],
     shippingAddress: {
@@ -65,8 +69,8 @@ const orderSchema = new mongoose.Schema(
 
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'orderItems',
-    select: '-ratingsAverage -ratingsQuantity -gallery -numReviews -rating -__v'
+    path: 'orderItems.product',
+    select: '-ratingsAverage -ratingsQuantity -gallery -numReviews -rating -reviews -__v'
   });
 
   next();

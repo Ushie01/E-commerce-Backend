@@ -13,7 +13,16 @@ const filterObj = (obj, ...allowedFields) => {
 
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.find();
+  const users = await User.find().populate('orders');
+    
+    users.map(value => {
+      value.otp = undefined, 
+      value.__v = undefined,
+      value.emailConfirmed = undefined,
+      value.passwordResetExpires = undefined,
+      value.passwordResetToken = undefined
+    });
+    
     res.status(200).json({
         status: 'success',
         results: users.length,
@@ -42,6 +51,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     runValidators: true
   });
 
+  updateUser.otp = undefined;
+  updateUser.__v = undefined;
+  updateUser.emailConfirmed = undefined;
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -62,14 +75,16 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  let query = User.findById(req.user._id)
-    .populate('orders')
-    .populate('products');
+  let query = User.findById(req.user._id).populate('orders');
   const user = await query;
 
   if (!user) {
     return next(new AppError('No document found with that ID', 404));
   }
+
+  user.otp = undefined;
+  user.__v = undefined;
+  user.emailConfirmed = undefined;
 
   res.status(200).json({
     status: 'success',
@@ -87,6 +102,10 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('No document found with that ID', 404));
   }
+
+  user.otp = undefined;
+  user.__v = undefined;
+  user.emailConfirmed = undefined;
 
   res.status(500).json({
     status: 'success',
