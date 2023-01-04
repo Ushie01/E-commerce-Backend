@@ -179,9 +179,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 });
 
-// exports.emailVerification = catchAsync(async (req, res, next) => {
-//   const 
-// })
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
     // Get user based on the token
