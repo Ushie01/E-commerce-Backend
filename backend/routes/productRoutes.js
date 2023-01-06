@@ -1,15 +1,12 @@
 const express = require('express');
-// const authController = require('./../controllers/authController');
 const reviewRouter = require('./../routes/reviewRoutes');
-
+const upload = require('./../middleware/upload');
 const {
     createProduct,
     getProduct,
     getAllProduct,
     updateProduct,
     deleteProduct,
-    getImage,
-    uploadProductImage
 } = require('./../controllers/productController');
 const reviewController = require('./../controllers/reviewController');
 const authController = require('./../controllers/authController');
@@ -23,20 +20,29 @@ router
     .post(
         authController.protect,
         authController.restrictTo('admin'),
-        createProduct);
+        // upload.single('image'),
+        upload.array('gallery', 2),
+        createProduct
+    );
+
 router
     .route('/:id')
     .get(getProduct)
     .patch(
         authController.protect,
         authController.restrictTo('admin'),
-        updateProduct)
+        updateProduct
+    )
     .delete(
         authController.protect,
         authController.restrictTo('admin'),
-        deleteProduct);
-router.get('/upload', getImage);
-router.patch('/upload', uploadProductImage);
+        deleteProduct
+    );
+
+// router
+//     .route('/upload')
+//     // .get(getImage)
+//     .post(uploadProductImage)
 
 router
     .route('/:productId/reviews')
@@ -45,5 +51,7 @@ router
         authController.restrictTo('user'),
         reviewController.createReview
     );
+
+
 
 module.exports = router;

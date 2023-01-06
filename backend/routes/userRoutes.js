@@ -2,7 +2,6 @@ const express = require('express');
 const {
     signup,
     login,
-    // protect,
     forgotPassword,
     resetPassword,
     updatePassword,

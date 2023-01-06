@@ -1,21 +1,34 @@
-const path = require('path');
-const multer = require('multer');
 const AppError = require('../utils/appError');
 const Product = require('../modals/productModels');
 const catchAsync = require('../utils/catchAsync');
 
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-    const newProduct = await Product.create(req.body);
+     console.log(req.files);
+    // if (!req.body.image) req.body.image = req.file.path;
+    const newProduct = await Product.create({
+        price: req.body.price,
+        size: req.body.size,
+        ratingsAverage: req.body.ratingsAverage,
+        ratingsQuantity: req.body.ratingsQuantity,
+        productGallery: req.files.map(path => path.path),
+        name: req.body.name,
+        description: req.body.description,
+        brand: req.body.name,
+        category: req.body.category,
+        collectionsData: req.body.collectionsData
+    });
 
+
+    await newProduct.save({ validateBeforeSave: false });
     res.status(201).json({
         status: 'success',
         data: {
-            tour: newProduct
+            product: newProduct
         }
     });
-
 });
+
 
 exports.getProduct = catchAsync(async (req, res, next) => {
     const product = await Product.findById(req.params.id)
@@ -33,6 +46,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     });
 });
 
+
 exports.getAllProduct = catchAsync(async (req, res, next) => {
     const products = await Product.find();
 
@@ -44,7 +58,6 @@ exports.getAllProduct = catchAsync(async (req, res, next) => {
         }
     });
 });
-
 
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
@@ -66,6 +79,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
 });
 
+
 exports.deleteProduct = catchAsync(async (req, res, next) => {
     const product = await Product.findByIdAndDelete(req.params.id);
 
@@ -79,19 +93,9 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
     })
 });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./Images")
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-})
 
-const upload = multer({ storage: storage });
+// exports.getImage = catchAsync(async (req, res, next) => {
+//   res.render("upload");
+// });
 
-exports.getImage = catchAsync(async (req, res, next) => {
-  res.render("upload");
-});
-
-exports.uploadProductImage = upload.single('image');
+// exports.uploadProductImage = ;

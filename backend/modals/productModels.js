@@ -11,10 +11,6 @@ const productSchema = new mongoose.Schema(
       unique: true,
       trim: true
     },
-    image: {
-      type: String,
-      required: [true, 'A product must have an image']
-    },
     brand: {
       type: String,
       required: [true, 'A product must have a brand']
@@ -36,11 +32,9 @@ const productSchema = new mongoose.Schema(
     collectionsData: {
       type: String,
     },
-    size: [
-      {
-        type: String,
-      },
-    ],
+    size: {
+      type: String,
+    },
     ratingsAverage: {
       type: Number,
       default: 4.5,
@@ -52,10 +46,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    gallery: [
+    productGallery: [
       {
         type: String,
-      },
+      } 
     ],
     createAt: {
       type: Date,

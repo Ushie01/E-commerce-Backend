@@ -11,12 +11,12 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
-const { mongo } = require('mongoose');
 const index = express();
 
 // Global Middlewares
 // Set security HTTP headers
 index.use(helmet());
+index.use('/uploads', express.static('uploads'));
 
 if (process.env.NODE_ENV === 'development') {
     index.use(morgan('dev'));
@@ -29,12 +29,11 @@ const limiter = rateLimit({
 });
 
 index.use('/api', limiter);
-
 index.set('view engine', 'ejs');
 index.set('views', path.join(__dirname, 'views'));
 
 //body parser, reading data from body into req.body
-index.use(express.json({ limit: '10k' }));
+index.use(express.json({ limit: '1000' }));
 
 // Data sanitization against NoSQL query injection
 index.use(mongoSanitize());

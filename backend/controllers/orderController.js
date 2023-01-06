@@ -23,7 +23,6 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
     let filter = {};
     if (req.params.userId) filter = { user: req.params.userId };
     const order = await Order.find(filter);
-    console.log(order);
     res.status(200).json({
         status: 'success',
         orders: order.length,
