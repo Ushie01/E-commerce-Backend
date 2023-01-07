@@ -20,8 +20,7 @@ router
     .post(
         authController.protect,
         authController.restrictTo('admin'),
-        // upload.single('image'),
-        upload.array('gallery', 2),
+        upload.array('gallery', 4),
         createProduct
     );
 
@@ -31,6 +30,7 @@ router
     .patch(
         authController.protect,
         authController.restrictTo('admin'),
+        upload.array('gallery', 4),
         updateProduct
     )
     .delete(
@@ -38,11 +38,6 @@ router
         authController.restrictTo('admin'),
         deleteProduct
     );
-
-// router
-//     .route('/upload')
-//     // .get(getImage)
-//     .post(uploadProductImage)
 
 router
     .route('/:productId/reviews')

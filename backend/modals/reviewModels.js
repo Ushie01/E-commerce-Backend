@@ -67,17 +67,21 @@ reviewScheme.statics.calcAverageRatings = async function (productId) {
     }
 };
 
+//UNIQUE INDEXING
 reviewScheme.index({ product: 1, user: 1 }, { unique: true });
 
+//AVERAGE RATE CALCULATION MIDDLEWARE
 reviewScheme.post('save', function () {
     this.constructor.calcAverageRatings(this.product);
 });
 
+//FINDONE MIDDLEWARE
 reviewScheme.pre(/^findOneAnd/, async function (next) {
     this.r = await this.findOne();
     next();
 });
 
+//CALCULATING AVERAGE RATING MIDDLEWARE
 reviewScheme.post(/^findOneAnd/, async function () {
     await this.r.constructor.calcAverageRatings(this.r.product);
 });

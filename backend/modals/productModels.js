@@ -8,7 +8,6 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'A product must have a name'],
-      unique: true,
       trim: true
     },
     brand: {

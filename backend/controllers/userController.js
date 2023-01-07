@@ -12,6 +12,7 @@ const filterObj = (obj, ...allowedFields) => {
 }
 
 
+// GET ALL USER CONTROLLER
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find().populate('orders');
     
@@ -33,6 +34,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 
+// USER UPDATE CONTROLLER
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data.
   if (req.body.password || req.body.passwordConfirm) {
@@ -64,6 +66,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 
+//USER DELETE CONTROLLER
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
@@ -74,6 +77,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 });
 
 
+//GET SINGLE USER CONTROLLER
 exports.getUser = catchAsync(async (req, res, next) => {
   let query = User.findById(req.user._id).populate('orders');
   const user = await query;
@@ -93,6 +97,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 })
 
 
+//ADMIN UPDATE USER CONTROLLER
 exports.updateUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -116,6 +121,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 });
 
 
+//ADMIN DELETE USER CONTROLLER
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id);
 
@@ -134,20 +140,3 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 
 
 
-// exports.uploadProductImage = catchAsync(async (req, res, next) => {
-//   console.log(req.file);
-//   res.send("Image Uploaded");
-
-//   upload.array('images', 3)
-// });
-
-// exports.createUser = catchAsync(async (req, res) => {
-//   const user = await User.create(req.body);
-
-//   res.status(201).json({
-//     status: 'success',
-//     data: {
-//       data: user
-//     }
-//   });
-// });

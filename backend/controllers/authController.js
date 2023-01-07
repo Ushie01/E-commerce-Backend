@@ -5,7 +5,7 @@ const catchAsync = require('./../utils/catchAsync');
 const User = require('./../modals/userModels');
 const AppError = require('./../utils/appError');
 const Email = require('../utils/email');
-// const sendEmail = require('./../utils/email');
+
 
 
 const signToken = id => {
@@ -14,6 +14,7 @@ const signToken = id => {
     });
 }
 
+// CREATING JWT SECRET TOKEN
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
@@ -38,7 +39,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 
-
+// SIGNUP CONTROLLER
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -71,6 +72,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 
+//LOGIN CONTROLLER
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   // 1) Check if email and password exist
@@ -79,12 +81,13 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password');
-  if (!user.emailConfirmed) {
-    return next(new AppError('Please confirm your email to login', 401))
-  };
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
+  };
+
+  if (!user.emailConfirmed) {
+    return next(new AppError('Please confirm your email to login', 401))
   };
 
   user.emailConfirmed = undefined;
@@ -95,6 +98,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 
+// PROTECT CONTROLLER
 exports.protect = catchAsync(async (req, res, next) => {
     let token;
     if (
@@ -103,7 +107,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     ) {
         token = req.headers.authorization.split(' ')[1]
     }
-    console.log(token);
 
     if (!token) {
         return next(
@@ -133,9 +136,9 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 
+// RETRICTING ADMIN OR USER TO CERTAIN ROUTE
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-         console.log(req.user)
         if (!roles.includes(req.user.role)) {
             return next(
                 new AppError('You do not have permission to perform this action', 403)
@@ -146,10 +149,11 @@ exports.restrictTo = (...roles) => {
 };
 
 
+// FORGET PASSWORD CONTROLLER
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
+
   if (!user) {
       return next(new AppError('There is no user with this email address', 404));
   }
@@ -179,6 +183,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 
+//RESET PASSWORD CONTROLLER
 exports.resetPassword = catchAsync(async (req, res, next) => {
     // Get user based on the token
     const hashedToken = crypto
@@ -204,6 +209,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 });
 
+
+// EMAIL VERIFICATION CONTROLLER
 exports.emailVerification = catchAsync(async (req, res, next) => {
   // const otp = await User.updateOne({ emailVerification: req.body.emailVerification }, { active: true });
   const hashedOtp = crypto
@@ -232,6 +239,8 @@ exports.emailVerification = catchAsync(async (req, res, next) => {
   // createSendToken(user, 200, res);
 });
 
+
+// UPDATE PASSWORD CONTROLLER
 exports.updatePassword = catchAsync(async (req, res, next) => {
     // Get user from collection
     const user = await User.findById(req.user.id).select('+password');

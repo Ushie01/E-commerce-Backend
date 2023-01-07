@@ -11,6 +11,7 @@ exports.setProductUserIds = (req, res, next) => {
 }
 
 
+// CREATE REVIEW CONTROLLER
 exports.createReview = catchAsync(async (req, res, next) => {
     const review = await Review.create(req.body);
     res.status(201).json({
@@ -23,9 +24,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 
+// GET ALL REVIEW CONTROLLER
 exports.getAllReviews = catchAsync(async (req, res, next) => {
     let filter = {};
-    console.log(req.params);
     if (req.params.productId) filter = { product: req.params.productId };
     const review = await Review.find(filter);
     res.status(200).json({
@@ -39,6 +40,7 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
 });
 
 
+// DELETE SINGLE REVIEW CONTROLLER
 exports.deleteReview = catchAsync(async (req, res, next) => {
     const review = await Review.findByIdAndDelete(req.params.id);
     if (!review) {
@@ -54,6 +56,7 @@ exports.deleteReview = catchAsync(async (req, res, next) => {
 });
 
 
+// UPDATE SINGLE REVIEW CONTROLLER
 exports.updateReview = catchAsync(async (req, res, next) => {
     const review = await Review.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
