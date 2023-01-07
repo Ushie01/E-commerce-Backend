@@ -14,8 +14,8 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
-const router = require('./routes/orderRoutes');
 const index = express();
+const router = express.Router();
 
 // Global Middlewares
 // Set security HTTP headers
@@ -58,7 +58,7 @@ index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
 
 
-index.use('/.netlify/functions/api', index);
+index.use('/.netlify/functions/api', router);
 
 // Handing Unhandled Routes
 index.all('*', (req, res, next) => {
@@ -67,4 +67,6 @@ index.all('*', (req, res, next) => {
 
 // globalErrorHandler
 index.use(globalErrorHandler);
-module.exports.hanhler = serverless(index);
+
+module.exports = index;
+module.exports.handler = serverless(index);
