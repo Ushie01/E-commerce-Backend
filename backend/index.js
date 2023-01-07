@@ -5,6 +5,8 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
+const compression = require('compression');
+
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -17,6 +19,9 @@ const index = express();
 // Set security HTTP headers
 index.use(helmet());
 index.use('/uploads', express.static('uploads'));
+
+// Compressing upcompressed files which is been sent to client such text.
+index.use(compression());
 
 if (process.env.NODE_ENV === 'development') {
     index.use(morgan('dev'));

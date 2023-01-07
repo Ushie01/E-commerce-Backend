@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
-const ejs = require('ejs');
-const htmlToText = require('html-to-text');
+// const ejs = require('ejs');
+// const htmlToText = require('html-to-text');
 
 module.exports = (receiver, message) => {
   const transporter = nodemailer.createTransport({

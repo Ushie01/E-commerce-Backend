@@ -1,3 +1,4 @@
+const fs = require('fs');
 const AppError = require('../utils/appError');
 const Product = require('../modals/productModels');
 const catchAsync = require('../utils/catchAsync');
@@ -65,7 +66,24 @@ exports.getAllProduct = catchAsync(async (req, res, next) => {
 
 // UPDATE SINGLE PRODUCT CONTROLLER
 exports.updateProduct = catchAsync(async (req, res, next) => {
+    //Updating Image In Uploads File
+    const image = await Product.findById(req.params.id);
+    const image1 = image.productGallery[0];
+    const image2 = image.productGallery[1];
 
+    if (!image) {
+        return next(new AppError('No product found with that ID', 404));
+    }
+    let resultHandler = function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+
+    fs.unlink(`${image1}`, resultHandler);
+    fs.unlink(`${image2}`, resultHandler);
+
+    //Updating product from database
     const product = await Product.findByIdAndUpdate(req.params.id,
         reqBody(req), {
             new: true,
@@ -74,8 +92,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 
     if (!product) {
         return next(new AppError('No product found with that ID', 404));
-    }
-
+    };
     res.status(200).json({
         status: 'success',
         data: {

@@ -48,6 +48,7 @@ const productSchema = new mongoose.Schema(
     productGallery: [
       {
         type: String,
+        required: [true, 'A product must have an image']
       } 
     ],
     createAt: {
