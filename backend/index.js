@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const compression = require('compression');
+const serverless = require("serverless-http");
 
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
@@ -13,6 +14,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
+const router = require('./routes/orderRoutes');
 const index = express();
 
 // Global Middlewares
@@ -56,6 +58,8 @@ index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
 
 
+index.use('/.netlify/functions/api', index);
+
 // Handing Unhandled Routes
 index.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
@@ -63,4 +67,4 @@ index.all('*', (req, res, next) => {
 
 // globalErrorHandler
 index.use(globalErrorHandler);
-module.exports = index;
+module.exports.hanhler = serverless(index);
