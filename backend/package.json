@@ -9,8 +9,8 @@
     "dev": "nodemon server.js",
     "start:prod": "set NODE_ENV=production && node server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Abu Godwin",
   "license": "ISC",
@@ -42,5 +42,14 @@
   },
   "engines": {
     "node": ">=10.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ushie01/E-commerce-Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ushie01/E-commerce-Backend/issues"
+  },
+  "homepage": "https://github.com/Ushie01/E-commerce-Backend#readme"
 }
