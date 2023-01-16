@@ -1,8 +1,8 @@
 [build]
 
   [[redirects]]
-    from = "https://stalwart-cassata-998bcd.netlify.app/"
-    to = "https://stalwart-cassata-998bcd.netlify.app/api/v1/products"
+    from = "https://willowy-blini-b427ac.netlify.app"
+    to = "https://willowy-blini-b427ac.netlify.app/api/v1/products"
     status = 200
     force = true # COMMENT: ensure that we always redirect
     headers = {X-From = "Netlify"}
