@@ -1,8 +1,3 @@
 [build]
 
-  [[redirects]]
-    from = "https://willowy-blini-b427ac.netlify.app"
-    to = "https://willowy-blini-b427ac.netlify.app/api/v1/products"
-    status = 200
-    force = true # COMMENT: ensure that we always redirect
-    headers = {X-From = "Netlify"}
+  functions="functions"
