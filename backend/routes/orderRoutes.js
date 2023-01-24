@@ -16,5 +16,4 @@ router
         orderController.getAllOrders
     );
 
-
 module.exports = router;

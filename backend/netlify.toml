@@ -2,9 +2,7 @@
 
 functions = "functions"
 
-[[redirects]]
-  from = "willowy-blini-b427ac.netlify.app"
-  to = "willowy-blini-b427ac.netlify.app/.netlify/functions/api/api/v1/products"
-  status = 301
+
+
 
 
