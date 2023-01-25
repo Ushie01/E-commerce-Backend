@@ -56,10 +56,10 @@ index.use('/api/v1/products', productRouter);
 index.use('/api/v1/users', userRouter);
 index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
-// index.use('/api/v1/hello', handler);
+index.use('/api/v1/hello', handler);
 
 
-index.use('/.netlify/functions/hello', handler);
+// index.use('/.netlify/functions/hello', handler);
 
 // Handing Unhandled Routes
 index.all('*', (req, res, next) => {
