@@ -10,7 +10,7 @@
     "start:prod": "set NODE_ENV=production && node server.js",
     "debug": "ndb server.js",
     "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:lambda": "netlify-lambda build lambda"
+    "build:lambda": "netlify-lambda build ./lambda/hello"
   },
   "author": "Abu Godwin",
   "license": "ISC",
