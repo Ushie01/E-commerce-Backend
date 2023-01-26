@@ -1,7 +1,7 @@
 [build]
   command = "npm run build:lambda"
   functions = "functions-build"
-
+  publish = "lambda/.netlify/functions"
 
 
 
