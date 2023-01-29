@@ -1,3 +1,4 @@
+// const functions = require("firebase-functions");
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
@@ -6,7 +7,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const compression = require('compression');
-const serverless = require("serverless-http");
+// const serverless = require("serverless-http");
 
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
@@ -14,7 +15,6 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
-const handler = require('./routes/functionRoutes');
 const index = express();
 // const router = express.Router();
 
@@ -56,7 +56,6 @@ index.use('/api/v1/products', productRouter);
 index.use('/api/v1/users', userRouter);
 index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
-index.use('/api/v1/hello', handler);
 
 
 // index.use('/.netlify/functions/hello', handler);
@@ -70,3 +69,4 @@ index.all('*', (req, res, next) => {
 index.use(globalErrorHandler);
 module.exports = index;
 // module.exports.handler = serverless(index);
+// exports.index = functions.https.onRequest(index);
