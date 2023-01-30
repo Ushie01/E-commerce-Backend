@@ -9,8 +9,7 @@
     "dev": "nodemon server.js",
     "start:prod": "set NODE_ENV=production && node server.js",
     "debug": "ndb server.js",
-    "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:lambda": "netlify-lambda build ./lambda"
+    "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Abu Godwin",
   "license": "ISC",
