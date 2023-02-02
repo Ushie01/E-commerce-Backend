@@ -8,7 +8,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const compression = require('compression');
 // const serverless = require("serverless-http");
-
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
