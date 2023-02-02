@@ -4,12 +4,9 @@
   "description": "Euphorya Backend",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "node server.js",
-    "dev": "nodemon server.js",
-    "build": "set NODE_ENV=production && node server.js",
-    "debug": "ndb server.js",
-    "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "build": "echo \"No build specified\" && exit 1",
+    "text": "echo \"No build specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Abu Godwin",
   "license": "ISC",
