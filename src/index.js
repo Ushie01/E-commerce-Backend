@@ -8,6 +8,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const compression = require('compression');
 // const serverless = require("serverless-http");
+const cors = require('cors');
 const globalErrorHandler = require('./controllers/errorController');
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -21,6 +22,8 @@ const index = express();
 // Set security HTTP headers
 index.use(helmet());
 index.use('/uploads', express.static('uploads'));
+
+console.log(process.env);
 
 // Compressing upcompressed files which is been sent to client such text.
 index.use(compression());
@@ -38,6 +41,12 @@ const limiter = rateLimit({
 index.use('/api', limiter);
 index.set('view engine', 'ejs');
 index.set('views', path.join(__dirname, 'views'));
+
+//implement CORS
+index.use(cors());
+//Access-Control-Allow-Origin
+
+index.options('*', cors());
 
 //body parser, reading data from body into req.body
 index.use(express.json({ limit: '1000' }));
