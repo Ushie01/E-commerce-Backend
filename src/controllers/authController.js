@@ -93,6 +93,7 @@ exports.login = catchAsync(async (req, res, next) => {
   user.emailConfirmed = undefined;
   user.otp = undefined;
   user.__v = undefined;
+  
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
 });
