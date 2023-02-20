@@ -1,6 +1,7 @@
 const express = require('express');
+// const multer = require('multer');
 const reviewRouter = require('./../routes/reviewRoutes');
-const upload = require('./../middleware/upload');
+const upload = require('../../upload');
 const {
     createProduct,
     getProduct,
@@ -11,19 +12,20 @@ const {
 const reviewController = require('./../controllers/reviewController');
 const authController = require('./../controllers/authController');
 const router = express.Router();
+// const upload = multer({ dest: './../uploads' });
+
 
 router.use('/:productId/reviews', reviewRouter);
-
 router
     .route('/')
     .get(getAllProduct)
     .post(
         authController.protect,
         authController.restrictTo('admin'),
-        upload.array('gallery', 4),
+        upload.single('image'),
         createProduct
-    );
-
+);
+    
 router
     .route('/:id')
     .get(getProduct)

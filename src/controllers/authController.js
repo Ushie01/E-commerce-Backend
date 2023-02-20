@@ -7,7 +7,6 @@ const AppError = require('./../utils/appError');
 const Email = require('../utils/email');
 
 
-
 const signToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
@@ -93,6 +92,7 @@ exports.login = catchAsync(async (req, res, next) => {
   user.emailConfirmed = undefined;
   user.otp = undefined;
   user.__v = undefined;
+  
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
 });
@@ -185,28 +185,28 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 //RESET PASSWORD CONTROLLER
 exports.resetPassword = catchAsync(async (req, res, next) => {
-    // Get user based on the token
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(req.params.token)
-        .digest('hex');
-    const user = await User.findOne({
-        passwordResetToken: hashedToken,
-        passwordResetExpires: { $gt: Date.now() }
-    });
-    // If token has not expired, and there is user, set the new password.
-    if (!user) {
-        return next(new AppError('Token is invalid or has expired', 400))
-    }
-    
-    user.password = req.body.password;
-    user.confirmPassword = req.body.confirmPassword;
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
-    // Update changedPasswordAt property for the user.
-    // Log the user in, send JWT.
-    createSendToken(user, 200, res);
+  // Get user based on the token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() }
+  });
+  // If token has not expired, and there is user, set the new password.
+  if (!user) {
+      return next(new AppError('Token is invalid or has expired', 400))
+  }
+  
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+  // Update changedPasswordAt property for the user.
+  // Log the user in, send JWT.
+  createSendToken(user, 200, res);
 });
 
 

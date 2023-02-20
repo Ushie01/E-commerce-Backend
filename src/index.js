@@ -20,8 +20,10 @@ const index = express();
 
 // Global Middlewares
 // Set security HTTP headers
-index.use(helmet());
-index.use('/uploads', express.static('uploads'));
+index.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
+index.use('/api/v1/products/uploads', express.static('uploads'));
 
 console.log(process.env);
 
@@ -34,7 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const limiter = rateLimit({
     max: 100,
-    windowMs: 60 * 60 * 1000,
+    windowMs: 2 * 60 * 1000,
     message: 'Too many request from this IP, please try again in an hour'
 });
 
@@ -64,10 +66,7 @@ index.use('/api/v1/products', productRouter);
 index.use('/api/v1/users', userRouter);
 index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
-
-
 // index.use('/.netlify/functions/hello', handler);
-
 // Handing Unhandled Routes
 index.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
