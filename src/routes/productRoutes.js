@@ -22,7 +22,7 @@ router
     .post(
         authController.protect,
         authController.restrictTo('admin'),
-        upload.single('image'),
+        upload.array('gallery', 4),
         createProduct
 );
     

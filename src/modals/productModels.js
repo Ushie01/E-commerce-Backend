@@ -53,8 +53,7 @@ const productSchema = new mongoose.Schema(
     ],
     createAt: {
       type: Date,
-      default: Date.now(),
-      select: false
+      default: Date.now()
     }
   },
   {
@@ -64,12 +63,12 @@ const productSchema = new mongoose.Schema(
 );
 
 
-
 productSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'product',
   localField: '_id'
-})
+});
+
 
 // productSchema.pre(/^find/, function (next) {
 //   this.populate({
@@ -81,5 +80,4 @@ productSchema.virtual('reviews', {
 // })
 
 const Product = mongoose.model('Product', productSchema);
-
 module.exports = Product;
