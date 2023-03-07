@@ -97,6 +97,16 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+exports.googleAcctLogin = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email }); 
+  console.log(user);
+  user.__v = undefined;
+  
+  // 3) If everything ok, send token to client
+  createSendToken(user, 200, res);
+})
+
 
 // PROTECT CONTROLLER
 exports.protect = catchAsync(async (req, res, next) => {

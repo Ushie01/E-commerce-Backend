@@ -1,5 +1,4 @@
 const express = require('express');
-// const multer = require('multer');
 const reviewRouter = require('./../routes/reviewRoutes');
 const upload = require('../../upload');
 const {
@@ -12,7 +11,6 @@ const {
 const reviewController = require('./../controllers/reviewController');
 const authController = require('./../controllers/authController');
 const router = express.Router();
-// const upload = multer({ dest: './../uploads' });
 
 
 router.use('/:productId/reviews', reviewRouter);

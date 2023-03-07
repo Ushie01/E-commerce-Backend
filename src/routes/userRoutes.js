@@ -5,7 +5,8 @@ const {
     forgotPassword,
     resetPassword,
     updatePassword,
-    emailVerification
+    emailVerification,
+    googleAcctLogin
 } = require('./../controllers/authController')
 const {
     getAllUsers,
@@ -23,6 +24,9 @@ const router = express.Router();
 router.use('/:userId/orders', orderRouter);
 router.post('/signup', signup);
 router.post('/login', login);
+router.post('/googleAccountLogin', googleAcctLogin);
+
+
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
 router.post('/emailVerification', emailVerification);
