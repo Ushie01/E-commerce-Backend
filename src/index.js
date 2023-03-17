@@ -23,6 +23,7 @@ const index = express();
 index.use(helmet({
     crossOriginResourcePolicy: false,
 }));
+
 index.use('/api/v1/products/uploads', express.static('uploads'));
 
 console.log(process.env);
