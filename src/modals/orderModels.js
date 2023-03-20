@@ -13,19 +13,19 @@ const orderSchema = new mongoose.Schema(
         price: { type: String, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: 'Product',
+          required: true,                
+          ref: 'Product'
         },
       },
     ],
     shippingAddress: {
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
       address: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
       city: { type: String, required: true },
       phoneNumber: { type: Number, required: true },
-      firstName: { type: String, require: true },
-      lastName: { type: String, require: true }
     },
     paymentMethod: {
       type: String,

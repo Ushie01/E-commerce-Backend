@@ -171,7 +171,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
   // 3) Send it to user's email
-  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+  const resetURL = `http://localhost:3000/resetPassword/${resetToken}`;
   const message = `Forgot your password? Click on the link below to create new password:
   ${resetURL}.\nIf you didn't forget your password please ignore this email!`;
 
@@ -227,6 +227,7 @@ exports.emailVerification = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update((req.body.otp).toString())
     .digest('hex');
+  console.log(hashedOtp);
   const user = await User.findOne({
     otp: hashedOtp,
     otpResetExpires: { $gt: Date.now() }
