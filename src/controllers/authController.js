@@ -43,6 +43,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    phoneNo: req.body.phoneNo,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword
   });
@@ -163,7 +164,6 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
-
   if (!user) {
       return next(new AppError('There is no user with this email address', 404));
   }

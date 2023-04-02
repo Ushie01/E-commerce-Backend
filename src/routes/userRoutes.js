@@ -22,7 +22,7 @@ const router = express.Router();
 
 
 router.use('/:userId/orders', orderRouter);
-router.post('/signup', signup);
+router.post('/signup', signup); 
 router.post('/login', login);
 router.post('/googleAccountLogin', googleAcctLogin);
 

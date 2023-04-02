@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema(
             lower: true,
             validator: [validator.isEmail, 'Please provide a valid email']
         },
+        phoneNo: {
+            type: String,
+            required: [true, 'Please provide your phone number'],
+            unique: true,
+            minlength: 11
+        },
         photo: String,
         role: {
             type: String,
