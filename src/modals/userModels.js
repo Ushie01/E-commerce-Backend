@@ -121,8 +121,8 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 
 
 userSchema.methods.createPasswordConfirmOtp = function () {
-    const min = 100000;
-    const max = 999999;
+    const min = 1000;
+    const max = 9999;
     const results = Math.floor(Math.random() * (max - min + 1)) + min;
     
     this.otp = crypto.createHash('sha256')

@@ -12,8 +12,8 @@ router
         orderController.setOrderUserIds,
         orderController.createOrder
     )
-    .get(
-        orderController.getAllOrders
-    );
+    .get(orderController.getAllOrders);
+
+router.route('/userOrder/:id').get(orderController.getOrder)
 
 module.exports = router;

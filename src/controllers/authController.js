@@ -223,47 +223,51 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 // EMAIL VERIFICATION CONTROLLER
 exports.emailVerification = catchAsync(async (req, res, next) => {
   // const otp = await User.updateOne({ emailVerification: req.body.emailVerification }, { active: true });
-  const hashedOtp = crypto
-    .createHash('sha256')
-    .update((req.body.otp).toString())
-    .digest('hex');
-  console.log(hashedOtp);
-  const user = await User.findOne({
-    otp: hashedOtp,
-    otpResetExpires: { $gt: Date.now() }
-  });
-  
-  if (!user) {
-    return next(new AppError('Token is invalid or has expired', 400))
-  } else {
-    await User.updateOne({ otp: hashedOtp }, { emailConfirmed: true });
+  try{
+    const hashedOtp = crypto
+      .createHash('sha256')
+      .update((req.body.otp).toString())
+      .digest('hex');
+
+    const user = await User.findOne({
+      otp: hashedOtp,
+      otpResetExpires: { $gt: Date.now() }
+    });
+    
+    if (!user) {
+      return next(new AppError('Token is invalid or has expired', 400))
+    } else {
+      await User.updateOne({ otp: hashedOtp }, { emailConfirmed: true });
+    }
+
+    user.otp = undefined;
+    user.otpResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      status: "success",
+      message: 'Email successfully verified'
+    });
+  } catch(error) {
+    console.error(error)
   }
-
-  user.otp = undefined;
-  user.otpResetExpires = undefined;
-  await user.save({ validateBeforeSave: false });
-
-  res.status(200).json({
-    status: "success",
-    message: 'Email successfully verified'
-  });
   // createSendToken(user, 200, res);
 });
 
 
-// UPDATE PASSWORD CONTROLLER
+// UPDATE PASSWORD CONTROLLER                  
 exports.updatePassword = catchAsync(async (req, res, next) => {
-    // Get user from collection
-    const user = await User.findById(req.user.id).select('+password');
-    // If posted password is correct
-    if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-        return next(new AppError('Your password is wrong', 404))
-    }
-    // update the current password
-    user.password = req.body.password;
-    user.confirmPassword = req.body.confirmPassword;
-    await user.save();
-    //Log user in, send JWT.
-    createSendToken(user, 200, res);
+  // Get user from collection
+  const user = await User.findById(req.body.id).select('+password');
+  // If posted password is correct
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+      return next(new AppError('Your password is wrong', 404))
+  }
+  // update the current password
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  await user.save();
+  //Log user in, send JWT.
+  createSendToken(user, 200, res);
 });
 

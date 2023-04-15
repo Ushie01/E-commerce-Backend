@@ -26,7 +26,6 @@ index.use(helmet({
 
 index.use('/api/v1/products/uploads', express.static('uploads'));
 
-console.log(process.env);
 
 // Compressing upcompressed files which is been sent to client such text.
 index.use(compression());
