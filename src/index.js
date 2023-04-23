@@ -51,7 +51,7 @@ index.use(cors());
 index.options('*', cors());
 
 //body parser, reading data from body into req.body
-index.use(express.json({ limit: '1000' }));
+index.use(express.json({ limit: '500000' }));
 
 // Data sanitization against NoSQL query injection
 index.use(mongoSanitize());

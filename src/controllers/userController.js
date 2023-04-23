@@ -16,21 +16,21 @@ const filterObj = (obj, ...allowedFields) => {
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find().populate('orders');
     
-    users.map(value => {
-      value.otp = undefined, 
-      value.__v = undefined,
-      value.emailConfirmed = undefined,
-      value.passwordResetExpires = undefined,
-      value.passwordResetToken = undefined
-    });
-    
-    res.status(200).json({
-        status: 'success',
-        results: users.length,
-        data: {
-            users
-        }
-    });
+  users.map(value => {
+    value.otp = undefined, 
+    value.__v = undefined,
+    value.emailConfirmed = undefined,
+    value.passwordResetExpires = undefined,
+    value.passwordResetToken = undefined
+  });
+  
+  res.status(200).json({
+      status: 'success',
+      results: users.length,
+      data: {
+          users
+      }
+  });
 });
 
 
@@ -80,11 +80,14 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 //GET SINGLE USER CONTROLLER
 exports.getUser = catchAsync(async (req, res, next) => {
-  let query = User.findById(req.user._id).populate('orders');
+  console.log(req.params.id);
+  let query = User.findById(req.params.id).populate('orders');
   const user = await query;
 
   if (!user) {
-    return next(new AppError('No document found with that ID', 404));
+    return next(
+      new AppError('No document found with that ID', 404)
+    );
   }
 
   user.otp = undefined;
@@ -113,7 +116,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.emailConfirmed = undefined;
 
-  res.status(500).json({
+  res.status(200).json({
     status: 'success',
     data: {
       data: user
