@@ -14,6 +14,14 @@ router
     )
     .get(orderController.getAllOrders);
 
-router.route('/userOrder/:id').get(orderController.getOrder)
+router
+    .route('/userOrder/:id')
+    .patch(orderController.updateOrder)
+
+router
+    .route('/userOrder/:id')
+    .get(orderController.getOrder)
+
+
 
 module.exports = router;

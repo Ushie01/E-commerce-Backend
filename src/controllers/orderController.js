@@ -50,3 +50,32 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
         }
     })
 });
+
+
+exports.updateOrder = catchAsync(async (req, res, next) => {
+  const order = await Order.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  });
+
+  if (!order) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  order.shippingAddress = undefined;
+  order.__v = undefined;
+  order.totalPrice = undefined;
+  order.orderItems = undefined;
+  order.shippingPrice = undefined;
+  order.paymentMethod = undefined;
+  order.user = undefined;
+  order.createdAt = undefined;
+  order.updatedAt = undefined
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: order
+    }
+  });
+});
