@@ -6,7 +6,8 @@ const {
     resetPassword,
     updatePassword,
     emailVerification,
-    googleAcctLogin
+    googleAcctLogin,
+    resendToken
 } = require('./../controllers/authController')
 const {
     getAllUsers,
@@ -38,6 +39,7 @@ router.patch('/updatePassword', updatePassword);
 router.patch('/updateMe', updateMe);
 router.delete('/deleteMe', deleteMe);
 router.route('/:id').get(getUser)
+router.patch('/resendToken', resendToken)
 
 
 router.use(authController.restrictTo('admin'));

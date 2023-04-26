@@ -251,9 +251,33 @@ exports.emailVerification = catchAsync(async (req, res, next) => {
   } catch(error) {
     console.error(error)
   }
-  // createSendToken(user, 200, res);
 });
 
+
+exports.resendToken = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  try {
+      const user = await User.findOne({ email });
+      user.otp = undefined;
+      user.otpResetExpires = undefined;
+      const resendOtp = user.createPasswordConfirmOtp();
+      await user.save({ validateBeforeSave: false });
+
+      const message = `Thank you for signing up with the Juliana's brand we are so proud to have you on board with us
+      Kindly respond with the OTP provided below                                                          
+      ${resendOtp}
+    `
+      Email(email, message)
+      res.status(200).json({
+        status: "success",
+        message: 'Token sent to email'
+      });
+  } catch (error) {
+    return next(
+        new AppError('There was an error sending the email. Try again later', 500)
+    )
+  }
+})
 
 // UPDATE PASSWORD CONTROLLER                  
 exports.updatePassword = catchAsync(async (req, res, next) => {
