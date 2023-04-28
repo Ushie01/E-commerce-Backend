@@ -1,4 +1,5 @@
-const crypto = require('crypto')
+const crypto = require('crypto');
+  const Flutterwave = require('flutterwave-node-v3');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
