@@ -22,8 +22,6 @@ router
     .route('/userOrder/:id')
     .get(orderController.getOrder)
 
-router
-    .route('https://api.flutterwave.com/v3/payments')
-    .post
+
 
 module.exports = router;

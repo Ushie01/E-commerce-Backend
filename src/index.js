@@ -47,7 +47,12 @@ index.set('views', path.join(__dirname, 'views'));
 //implement CORS
 index.use(cors());
 //Access-Control-Allow-Origin
+// const corsOptions = {
+//   origin: 'https://api.flutterwave.com/v3/payments',
+//   optionsSuccessStatus: 200
+// }
 
+// index.use(cors(corsOptions));
 index.options('*', cors());
 
 //body parser, reading data from body into req.body
