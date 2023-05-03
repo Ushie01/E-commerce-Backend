@@ -45,12 +45,14 @@ index.set('view engine', 'ejs');
 index.set('views', path.join(__dirname, 'views'));
 
 //implement CORS
-const allowedOrigins = ['https://api.flutterwave.com/v3/payments', 'https://api.flutterwave.com/v3//transactions/:id/verify'];
+const allowedOrigins = [
+    'https://api.flutterwave.com/v3/payments', 
+    'https://api.flutterwave.com/v3/transactions/:id/verify'
+];
 
 app.use(cors({
   origin: allowedOrigins
 }));
-
 
 // index.use(cors(corsOptions));
 // index.options('*', cors());
