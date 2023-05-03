@@ -50,7 +50,7 @@ const allowedOrigins = [
     'https://api.flutterwave.com/v3/transactions/:id/verify'
 ];
 
-app.use(cors({
+index.use(cors({
   origin: allowedOrigins
 }));
 
