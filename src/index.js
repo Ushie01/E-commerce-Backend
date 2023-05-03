@@ -45,15 +45,15 @@ index.set('view engine', 'ejs');
 index.set('views', path.join(__dirname, 'views'));
 
 //implement CORS
-index.use(cors());
-//Access-Control-Allow-Origin
-// const corsOptions = {
-//   origin: 'https://api.flutterwave.com/v3/payments',
-//   optionsSuccessStatus: 200
-// }
+const allowedOrigins = ['https://api.flutterwave.com/v3/payments', 'https://api.flutterwave.com/v3//transactions/:id/verify'];
+
+app.use(cors({
+  origin: allowedOrigins
+}));
+
 
 // index.use(cors(corsOptions));
-index.options('*', cors());
+// index.options('*', cors());
 
 //body parser, reading data from body into req.body
 index.use(express.json({ limit: '500000' }));
