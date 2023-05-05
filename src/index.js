@@ -56,7 +56,7 @@ index.set('views', path.join(__dirname, 'views'));
 // index.options('*', cors());
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://api.flutterwave.com/v3/payments'],
+  origin: ['https://e-commerce-frontend-plt0.onrender.com', 'https://api.flutterwave.com/v3/payments'],
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type, Authorization',
 };
