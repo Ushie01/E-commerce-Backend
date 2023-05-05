@@ -59,18 +59,18 @@ index.use(cors());
 const corsOptions = {
   origin: ['https://e-commerce-frontend-plt0.onrender.com', 'https://api.flutterwave.com'],
   methods: 'GET, POST, PUT, DELETE, PATCH',
-  allowedHeaders: 'Content-Type, Authorization',
+  optionsSuccessStatus: 200
 };
 
 index.use(cors(corsOptions));
 
-index.use('/payments', createProxyMiddleware({
-  target: 'https://api.flutterwave.com/v3/payments',
-  changeOrigin: true,
-  onProxyRes: function(proxyRes, req, res) {
-    proxyRes.headers['Access-Control-Allow-Origin'] = 'https://e-commerce-frontend-plt0.onrender.com';
-  }
-}));
+// index.use('/payments', createProxyMiddleware({
+//   target: 'https://api.flutterwave.com/v3/payments',
+//   changeOrigin: true,
+//   onProxyRes: function(proxyRes, req, res) {
+//     proxyRes.headers['Access-Control-Allow-Origin'] = 'https://e-commerce-frontend-plt0.onrender.com';
+//   }
+// }));
 //body parser, reading data from body into req.body
 index.use(express.json({ limit: '500000' }));
 
