@@ -64,7 +64,7 @@ const corsOptions = {
 
 index.use(cors(corsOptions));
 
-index.use('/api/flw-payment', createProxyMiddleware({
+index.use('/payments', createProxyMiddleware({
   target: 'https://api.flutterwave.com/v3/payments',
   changeOrigin: true,
   onProxyRes: function(proxyRes, req, res) {
