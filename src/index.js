@@ -61,7 +61,7 @@ const corsOptions = {
   allowedHeaders: 'Content-Type, Authorization',
 };
 
-app.use(cors(corsOptions));
+index.use(cors(corsOptions));
 
 
 //body parser, reading data from body into req.body
