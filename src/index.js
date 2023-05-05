@@ -15,6 +15,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const index = express();
 // const router = express.Router();
 
