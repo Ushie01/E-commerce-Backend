@@ -45,7 +45,7 @@ index.set('view engine', 'ejs');
 index.set('views', path.join(__dirname, 'views'));
 
 //implement CORS
-// index.use(cors());
+index.use(cors());
 //Access-Control-Allow-Origin
 // const corsOptions = {
 //   origin: 'https://api.flutterwave.com/v3/payments',
@@ -57,8 +57,8 @@ index.set('views', path.join(__dirname, 'views'));
 
 const corsOptions = {
   origin: ['https://e-commerce-frontend-plt0.onrender.com', 'https://api.flutterwave.com'],
-  methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: '*',
+  methods: 'GET, POST, PUT, DELETE, PATCH',
+  allowedHeaders: 'Content-Type, Authorization',
 };
 
 index.use(cors(corsOptions));
