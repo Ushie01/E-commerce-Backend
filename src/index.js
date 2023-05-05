@@ -57,7 +57,7 @@ index.set('views', path.join(__dirname, 'views'));
 
 const allowedOrigins = ['http://localhost:3000', 'https://api.flutterwave.com/v3/payments'];
 
-app.use(cors({
+index.use(cors({
   origin: function(origin, callback) {
     // Allow requests with no origin
     // (like mobile apps or curl requests)
@@ -70,7 +70,7 @@ app.use(cors({
   }
 }));
 
-app.use((req, res, next) => {
+index.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
