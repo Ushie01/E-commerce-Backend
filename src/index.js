@@ -55,31 +55,13 @@ index.set('views', path.join(__dirname, 'views'));
 // index.use(cors(corsOptions));
 // index.options('*', cors());
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://api.flutterwave.com/v3/payments',
-    'https://ecommerce-backend-3bm2.onrender.com/api/v1/products'
-];
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://api.flutterwave.com/v3/payments'],
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+};
 
-index.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin
-    // (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
-
-index.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigins.join(', '));
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors(corsOptions));
 
 
 //body parser, reading data from body into req.body
