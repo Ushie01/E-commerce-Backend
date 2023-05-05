@@ -63,7 +63,13 @@ const corsOptions = {
 
 index.use(cors(corsOptions));
 
-
+index.use('/api/flw-payment', createProxyMiddleware({
+  target: 'https://api.flutterwave.com/v3/payments',
+  changeOrigin: true,
+  onProxyRes: function(proxyRes, req, res) {
+    proxyRes.headers['Access-Control-Allow-Origin'] = 'https://e-commerce-frontend-plt0.onrender.com';
+  }
+}));
 //body parser, reading data from body into req.body
 index.use(express.json({ limit: '500000' }));
 
