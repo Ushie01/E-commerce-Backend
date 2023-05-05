@@ -55,7 +55,11 @@ index.set('views', path.join(__dirname, 'views'));
 // index.use(cors(corsOptions));
 // index.options('*', cors());
 
-const allowedOrigins = ['http://localhost:3000', 'https://api.flutterwave.com/v3/payments'];
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://api.flutterwave.com/v3/payments',
+    'https://ecommerce-backend-3bm2.onrender.com/api/v1/products'
+];
 
 index.use(cors({
   origin: function(origin, callback) {
