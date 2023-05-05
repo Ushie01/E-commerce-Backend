@@ -58,7 +58,7 @@ index.set('views', path.join(__dirname, 'views'));
 const corsOptions = {
   origin: ['https://e-commerce-frontend-plt0.onrender.com', 'https://api.flutterwave.com'],
   methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: 'Content-Type, Authorization',
+  allowedHeaders: '*',
 };
 
 index.use(cors(corsOptions));
