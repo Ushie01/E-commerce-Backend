@@ -47,7 +47,7 @@
     "xss-clean": "^0.1.1"
   },
   "engines": {
-    "node": "18.16.0"
+    "node": "18.x"
   },
   "devDependencies": {
     "prettier": "2.8.4"
