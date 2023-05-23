@@ -3,6 +3,11 @@ const orderController = require('./../controllers/orderController');
 const authController = require('./../controllers/authController');
 const router = express.Router({ mergeParams: true });
 
+router
+    .route('/api/flwPayment')
+    .post(
+        orderController.orderPayment);
+
 router.use(authController.protect);
 
 router
@@ -16,11 +21,11 @@ router
 
 router
     .route('/userOrder/:id')
-    .patch(orderController.updateOrder)
+    .patch(orderController.updateOrder);
 
 router
     .route('/userOrder/:id')
-    .get(orderController.getOrder)
+    .get(orderController.getOrder);
 
 
 

@@ -1,4 +1,3 @@
-// const functions = require("firebase-functions");
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
@@ -15,9 +14,8 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes')
 const AppError = require('./utils/appError');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 const index = express();
-// const router = express.Router();
+
 
 // Global Middlewares
 // Set security HTTP headers
@@ -47,36 +45,25 @@ index.set('views', path.join(__dirname, 'views'));
 
 //implement CORS
 index.use(cors());
-//Access-Control-Allow-Origin
-// const corsOptions = {
-//   origin: 'https://api.flutterwave.com/v3/payments',
-//   optionsSuccessStatus: 200
-// }
-
-// index.use(cors(corsOptions));
-// index.options('*', cors());
 
 const corsOptions = {
-  origin: ['https://e-commerce-frontend-plt0.onrender.com', 'https://api.flutterwave.com'],
+    origin: [
+        'https://e-commerce-frontend-plt0.onrender.com',
+        'https://e-commerce-frontend-6i0klmujm-ushie01.vercel.app',
+        'https://api.flutterwave.com/v3/payments',
+        'http://localhost:3000'
+    ],
   methods: 'GET, POST, PUT, DELETE, PATCH',
   optionsSuccessStatus: 200
 };
 
+
 index.use(cors(corsOptions));
 
-// index.use('/payments', createProxyMiddleware({
-//   target: 'https://api.flutterwave.com/v3/payments',
-//   changeOrigin: true,
-//   onProxyRes: function(proxyRes, req, res) {
-//     proxyRes.headers['Access-Control-Allow-Origin'] = 'https://e-commerce-frontend-plt0.onrender.com';
-//   }
-// }));
-//body parser, reading data from body into req.body
-index.use(express.json({ limit: '500000' }));
 
+index.use(express.json({ limit: '500000' }));
 // Data sanitization against NoSQL query injection
 index.use(mongoSanitize());
-
 // Data sanitization against Sanitize untrusted HTML (Cross Side Server)
 index.use(xssClean());
 
@@ -87,7 +74,7 @@ index.use('/api/v1/products', productRouter);
 index.use('/api/v1/users', userRouter);
 index.use('/api/v1/reviews', reviewRouter);
 index.use('/api/v1/orders', orderRouter);
-// index.use('/.netlify/functions/hello', handler);
+
 // Handing Unhandled Routes
 index.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
