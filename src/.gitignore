@@ -1,8 +1,0 @@
-/node_modules
-
-/config.env
-
-/.cache
-
-/.elasticbeanstalk
-functions
